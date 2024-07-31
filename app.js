@@ -1,5 +1,7 @@
+require('dotenv').config()
 const express = require("express");
 const app = express();
+const PORT = process.env.PORT || 8080;
 const mongoose = require("mongoose");
 const path = require("path");
 const Listing = require("./models/listing.js");
@@ -21,7 +23,7 @@ main().then(() => {
 });
 
 async function main() {
-    await mongoose.connect("mongodb://127.0.0.1:27017/wanderlust");
+    await mongoose.connect(process.env.MONGO_URL);
 }
 
 app.get("/", (req, res) => {
@@ -78,21 +80,6 @@ app.delete("/listings/:id", async (req, res) => {
     
 });
 
-
-// app.get("/testListing", async (req, res) => {
-//     let sampleListing = new Listing({
-//         title: "my new villa",
-//         description: "by the beach",
-//         price: 200,
-//         location: "goa",
-//         country: "India",
-//     });
-
-//     await sampleListing.save();
-//     console.log("sample was saved");
-//     res.send("testing successful")
-// });
-
-app.listen(8080, () => {
+app.listen(PORT, () => {
     console.log("app is listening to port 8080");
 });
